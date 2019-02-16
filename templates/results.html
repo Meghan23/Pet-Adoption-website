@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <h3>Results({{ results.count }})</h3>
+        {% if results %}
+        {% for result in results %}
+        <div class="card mt-4">
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <img src="{{ result.photo.url }}" height="100%" width="100%">
+                        <ul class="list-group">
+                            <li class="list-group-item">Name : {{result.name}}</li>
+                            <li class="list-group-item">Breed : {{result.breed}}</li>
+                            <li class="list-group-item">Sex : {{result.sex}}</li>
+                            <li class="list-group-item">Age : {{result.age}}</li>
+                            <li class="list-group-item">Color : {{result.color}}</li>
+                            <li class="list-group-item">Special needs : {{result.needs}}</li>
+                            <li class="list-group-item">Part of Bonded pair : {{result.bonded}}</li>
+                            <li class="list-group-item">Posted by : <a href="{% url 'allposts' pid=result.pk %}">{{ result.uid }}</a></li>
+                        </ul>
+                        <br>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h4>No pets found</h4>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

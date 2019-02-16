@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if error_message %}
+<p><strong>{{ error_message }}</strong></p>
+{% endif %}
+<br>
+<div class="container-fluid vertical-align">
+
+    <!--<div class="row">-->
+    <div class="col-sm-6 col-sm-offset-3 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% include 'crform_template.html' %}
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                {% else %}
+                <p><h3>You're not logged in</h3></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

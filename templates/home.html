@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<div class="container">
+
+    <div class="row">
+
+        {% if user.is_authenticated %}
+        <div class="col-lg-4 text-justify">
+            <ul class="list-group my-4" style="font-weight:bold">
+                <li class="list-group-item bg-dark text-light">{{ user.name }}</li>
+                <li class="list-group-item"><img src="{{ user.picture.url }}" height="100%" width="100%"
+                                                 alt=""></li>
+            </ul>
+        </div>
+        <div class="col-lg-8">
+
+            <div class="card mt-4">
+                <img class="card-img-top img-fluid" src="" alt="">
+                <div class="card-body">
+                    <h3 class="card-title">{{ phone.phone_name }}</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">Username : {{ user.username }}</li>
+                        <li class="list-group-item">Address : {{ user.address }}</li>
+                        <li class="list-group-item">City : {{ user.city }}</li>
+                        <li class="list-group-item">Contact : {{ user.contact }}</li>
+                        <li class="list-group-item">Email : {{ user.email }}</li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <br>
+            <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+               href="{% url 'updateprofile' pk=user.pk %}">Update your details</a></p>
+            <p><a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                  href="{% url 'newpet' %}">add pet</a></p>
+            {% if user.pet_set.all %}
+            <!-- /.card -->
+            <div class="card mt-4">
+                <img class="card-img-top img-fluid" src="" alt="">
+                <div class="card-body">
+                    <h3 class="card-title">Uploads({{ user.pet_set.count }})</h3>
+                    <ul class="list-group">
+                        {% for pet in user.pet_set.all %}
+                        <li class="list-group-item">
+                            <img src="{{ pet.photo.url }}" height="100%" width="100%">
+                            <ul class="list-group">
+                                <li class="list-group-item">Name : {{pet.name}}</li>
+                                <li class="list-group-item">Breed : {{pet.breed}}</li>
+                                <li class="list-group-item">Sex : {{pet.sex}}</li>
+                                <li class="list-group-item">Age : {{pet.age}}</li>
+                                <li class="list-group-item">Color : {{pet.color}}</li>
+                                <li class="list-group-item">Special needs : {{pet.needs}}</li>
+                                <li class="list-group-item">Part of Bonded pair : {{pet.bonded}}</li>
+                            </ul>
+                            <br>
+                            <form action="{% url 'delpet' pk=pet.pk %}" method="post">
+                                {% csrf_token %}
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                                        type="submit">Delete
+                                </button>
+                            </form>
+                            <br>
+                            <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                               href="{% url 'updatepet' pk=pet.pk %}">Update</a></p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    No pets.
+                    {% endif %}
+                    {% else %}
+                    <p><h3>You are not logged in</h3></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

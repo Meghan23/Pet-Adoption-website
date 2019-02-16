@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    Hi {{ user.name }}!
+    <p>Your details : </p><br>
+    <ul>
+        <li>Username : {{ user.username }}</li>
+        <li>Address : {{ user.address }}</li>
+        <li>City : {{ user.city }}</li>
+        <li>Contact : {{ user.contact }}</li>
+        <li>Email : {{ user.email }}</li>
+    </ul><br>
+    <a href="{% url 'updateprofile' pk=user.pk %}">Update your details</a></p>
+    <p><a href="{% url 'logout' %}">logout</a></p>
+    <p><a href="{% url 'newpet' %}">add pet</a></p>
+    {% if user.pet_set.all %}
+        <ul>
+            {% for pet in user.pet_set.all %}
+                <li>
+                    {{pet.name}}
+                    <ul>
+                        <li>Breed : {{pet.breed}}</li>
+                        <li>Sex : {{pet.sex}}</li>
+                        <li>Age : {{pet.age}}</li>
+                        <li>Color : {{pet.color}}</li>
+                        <li>Special needs : {{pet.needs}}</li>
+                        <li>Part of Bonded pair : {{pet.bonded}}</li>
+                    </ul><br>
+                    <form action="{% url 'delpet' pk=pet.pk %}" method="post" >
+                        {% csrf_token %}
+                        <button type="submit" >Delete</button>
+                    </form><br>
+                    <a href="{% url 'updatepet' pk=pet.pk %}">Update</a></p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        No pets.
+    {% endif %}
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a> |
+  <a href="{% url 'signup' %}">signup</a>
+{% endif %}
+{% endblock %}

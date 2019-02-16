@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<br>
+<div class="container-fluid vertical-align">
+
+    <div class="col-sm-6 col-sm-offset-3 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% if user.is_authenticated %}
+                <h3>Hi {{ user.name }}!</h3>
+                You're already logged in.
+                {% else %}
+                <h3>Log In</h3><br>
+                <form class="form-horizontal" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
